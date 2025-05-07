@@ -18,10 +18,9 @@ RespawnObj.death = function(player)
 
     for i = 0, PerkFactory.PerkList:size() -1 do
         local perk = PerkFactory.PerkList:get(i)
-        playerData[i] = (xp:getXP(perk) * option.xpRate) 
-        -- print(playerData[id][i])
+        playerData[i] = (xp:getXP(perk) * option.xpRate)
+        print(playerData[id][i])
     end
-    
     Events.OnCreatePlayer.Add(RespawnObj.checkForRespawn)
 end
 
@@ -31,20 +30,17 @@ RespawnObj.checkForRespawn = function(index, player)
         local id = player:getSteamID()
         -- trigger after 5 ticks, make sure the player object is properly set
         if tickCount < 5 then
-            print(">>>>>>>\ncurrent tick: " .. tickCount)
+            -- print(">>>>>>>\ncurrent tick: " .. tickCount)
             tickCount = tickCount + 1
             return
         end
-    
-        -- print("Respawning player: " .. id)
+        print("Respawning player: " .. id)
         local xp = player:getXp()
-        
         for i = 0, PerkFactory.PerkList:size() -1 do
             local perk = PerkFactory.PerkList:get(i)
-            xp:AddXP(perk, playerData[i], true, true, false, false)
-            -- print(">>>>>>>>>>>>>>>>>ading xp: " .. perk:getName() .. " - " .. playerData[id][i])
+            xp:AddXP(perk, playerData[i])
+            -- print(">>>>>>>>>>>>>>>>>ading xp: " .. perk:getName() .. " - " .. playerData[i])
         end
-    
         playerData = {}
         Events.OnPlayerUpdate.Remove(Respawn)
     end
